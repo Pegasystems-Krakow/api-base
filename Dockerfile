@@ -370,6 +370,18 @@ RUN set -xe && \
       rm -rf /tmp/*; \
     done
 
+# Check for latest version here: https://github.com/JetBrains/kotlin/releases
+
+ENV KOTLIN_VERSIONS \
+	1.3.71
+RUN set -xe && \
+    for VERSION in $KOTLIN_VERSIONS; do \
+        curl -fSsL "https://github.com/JetBrains/kotlin/releases/download/v$VERSION/kotlin-native-linux-$VERSION.tar.gz" -o /tmp/kotlin-native-linux-$VERSION.tar.gz && \
+        mkdir /usr/local/kotlin-$VERSION && \
+        tar -xf /tmp/kotlin-native-linux-$VERSION.tar.gz -C /usr/local/kotlin-$VERSION --strip-components=1 && \
+        rm -rf /tmp/*; \
+    done
+
 # Check for latest version here: http://www.sbcl.org/platform-table.html
 ENV SBCL_VERSIONS \
       2.0.0
